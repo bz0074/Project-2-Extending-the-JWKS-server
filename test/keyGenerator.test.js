@@ -15,3 +15,7 @@ describe('Key Generator', () => {
     });
   });
 });
+"scripts": {
+  "test": "jest",
+  "coverage": "jest --coverage"
+}
