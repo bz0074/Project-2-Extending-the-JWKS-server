@@ -26,5 +26,9 @@ describe('Auth Endpoint', () => {
       });
   });
 
-  // Add more test cases as needed
 });
+"scripts": {
+  "test": "jest",
+  "coverage": "jest --coverage"
+}
+
