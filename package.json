@@ -1,16 +1,29 @@
 {
-  "name": "your-project-name",
+  "name": "jwks-server",
   "version": "1.0.0",
-  "description": "Your project description",
-  "main": "index.js",
+  "description": "JWT Key Set (JWKS) Server with SQLite Database",
+  "main": "src/server.js",
   "scripts": {
+    "start": "node src/server.js",
     "test": "jest --coverage"
   },
+  "keywords": [
+    "jwt",
+    "jwks",
+    "sqlite",
+    "authentication",
+    "security"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "sqlite3": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
-    "node-rsa": "^1.1.1"
+    "body-parser": "^1.19.0"
   },
-  "author": "Your Name",
-  "license": "MIT"
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "supertest": "^6.1.3"
+  }
 }
