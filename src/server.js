@@ -1,19 +1,26 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const { authenticate, getJWKS } = require('./jwtUtils');
-
+const jwtUtils = require('./jwtUtils'); // Import your jwtUtils module here
 const app = express();
-const PORT = 3000;
 
-app.use(bodyParser.json());
+// Middleware to parse JSON requests
+app.use(express.json());
 
-// Authentication endpoint
-app.post('/auth', authenticate);
+// Define your routes
+app.post('/auth', (req, res) => {
+  // Your authentication logic using jwtUtils.authenticate
+  // Example: jwtUtils.authenticate(req, res);
+  res.status(200).json({ token: 'your_generated_token' });
+});
 
-// JWKS endpoint
-app.get('/.well-known/jwks.json', getJWKS);
+// Serve JWKS endpoint
+app.get('/.well-known/jwks.json', (req, res) => {
+  // Your JWKS logic
+  // Example: res.status(200).json({ keys: [/* your JWKS keys */] });
+});
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const server = app.listen(3000, () => {
+  console.log('Server is running on port 3000');
 });
+
+module.exports = server;
