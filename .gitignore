@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+
+# SQLite database file
+totally_not_my_privateKeys.db
+
+# Editor-specific files
+.vscode/
+.idea/
+
+# Test coverage
+coverage/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Dependency directories
+jspm_packages/
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn
+yarn-debug.log
+yarn-error.log
+
+# dotenv environment variables file
+.env
+
+# macOS
+.DS_Store
