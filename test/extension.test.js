@@ -1,5 +1,7 @@
 // Import the module you want to test
-const yourModule = require('../path/to/your/module');
+// Adjust the path based on your project's structure
+const yourModule = require('../src/server.js'); 
+
 
 // Describe your test suite
 describe('Your Module Tests', () => {
