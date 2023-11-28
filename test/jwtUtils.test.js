@@ -1,6 +1,8 @@
 // Import necessary modules and functions
 const jwtUtils = require('../src/jwtUtils');
 const db = require('../src/db');
+const response = await request(app).get('/your-endpoint?expired=true');
+
 
 // Mock the db.get function
 jest.mock('../src/db', () => ({
