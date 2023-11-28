@@ -1,5 +1,3 @@
-describe("Utility tests", () => {
-  test("Reloads only when needed", async () => {
-    // Your test logic here
-  });
+test("Utility tests: Reloads only when needed", async () => {
+  // Your test logic here
 });
