@@ -1,6 +1,12 @@
 const request = require('supertest');
 const app = require('../src/server');
 
+it('your test description', (done) => {
+  // Your test logic here
+  console.log('Server is running on port 3000');
+  done();
+});
+
 describe('POST /auth', () => {
   it('should return a valid JWT', async () => {
     const response = await request(app).post('/auth');
