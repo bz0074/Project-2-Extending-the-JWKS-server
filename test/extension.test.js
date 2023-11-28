@@ -2,6 +2,11 @@
 // Adjust the path based on your project's structure
 const yourModule = require('../src/server.js'); 
 
+describe("Utility tests", () => {
+  test("Reloads only when needed", async () => {
+    // Your test logic here
+  });
+});
 
 // Describe your test suite
 describe('Your Module Tests', () => {
