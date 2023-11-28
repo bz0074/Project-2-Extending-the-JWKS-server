@@ -11,7 +11,3 @@ describe('Key Utilities', () => {
     expect(deserializedKey).to.equal(privateKey);
   });
 });
-"scripts": {
-  "test": "jest",
-  "coverage": "jest --coverage"
-}
