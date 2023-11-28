@@ -10,6 +10,10 @@ it('should return a valid JWT when a valid key is present', () => {
   const dbGetMock = jest.fn().mockImplementation((query, callback) => {
     callback(null, { kid: 1, key: 'base64url-encoded-key', exp: Date.now() + 3600000 });
   });
+  // Ensure dbGetMock is in scope
+const dbGetMock = jest.fn();
+jest.mock('../src/db', () => ({ get: dbGetMock }));
+
 
   // Use jest.mock inside the test function
   jest.mock('../src/db', () => ({ get: dbGetMock }));
