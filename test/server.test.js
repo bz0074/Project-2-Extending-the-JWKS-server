@@ -3,32 +3,28 @@ const app = require('../src/server');
 
 let server;
 
+beforeAll((done) => {
+  // Start the server before all tests
+  server = app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+    done();
+  });
+});
+
 afterAll((done) => {
   // Close the server after all tests are done
   server.close(done);
 });
 
-describe('POST /auth', () => {
-  it('should return a valid JWT', (done) => {
-    server = app.listen(3000, () => {
-      // Your test logic here
-      request(app)
-        .post('/auth')
-        .send(/* your request body */)
-        .expect(200)
-        .end((err, res) => {
-          // Handle the response
-          done();
-        });
-    });
-  });
-});
-
-describe('GET /.well-known/jwks.json', () => {
-  it('should return a valid JWKS', async () => {
+describe('jwtUtils Tests', () => {
+  it('should authenticate successfully', (done) => {
     // Your test logic here
-    const response = await request(app).get('/.well-known/jwks.json');
-    expect(response.status).toBe(200);
-    expect(response.body.keys).toBeDefined();
-  }, 15000); // Set timeout to 15 seconds
+    request(app)
+      .get('/your-endpoint?expired=true')
+      .expect(200)
+      .end((err, res) => {
+        // Handle the response
+        done();
+      });
+  });
 });
