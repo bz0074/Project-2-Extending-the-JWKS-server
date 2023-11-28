@@ -1,0 +1,40 @@
+const request = require('supertest');
+const app = require('../src/server'); // Assuming you have an Express app in this file
+
+describe('Authentication Tests', () => {
+  // Test case for POST /auth
+  it('should return a valid JWT on successful authentication', async () => {
+    const response = await request(app)
+      .post('/auth')
+      .send({ /* your authentication payload */ });
+
+    // Your assertions here
+    expect(response.status).toBe(200);
+    expect(response.body.token).toBeDefined();
+  });
+
+  // Add more test cases as needed for different scenarios
+
+  // Remember to close the server after the test suite
+  afterAll(() => {
+    app.close();
+  });
+});
+
+describe('JWKS Tests', () => {
+  // Test case for GET /.well-known/jwks.json
+  it('should return a valid JWKS', async () => {
+    const response = await request(app).get('/.well-known/jwks.json');
+
+    // Your assertions here
+    expect(response.status).toBe(200);
+    expect(response.body.keys).toBeDefined();
+  });
+
+  // Add more test cases as needed for different scenarios
+
+  // Remember to close the server after the test suite
+  afterAll(() => {
+    app.close();
+  });
+});
