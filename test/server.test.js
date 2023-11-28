@@ -1,22 +1,23 @@
 const request = require('supertest');
 const app = require('../src/server');
 
-afterEach((done) => {
-  // Clean up tasks, e.g., close the server
-  done();
+let server;
+
+afterAll((done) => {
+  // Close the server after all tests are done
+  server.close(done);
 });
 
 describe('POST /auth', () => {
   it('should return a valid JWT', (done) => {
-    // Your test logic here
-    const server = app.listen(3000, () => {
+    server = app.listen(3000, () => {
+      // Your test logic here
       request(app)
         .post('/auth')
         .send(/* your request body */)
         .expect(200)
         .end((err, res) => {
           // Handle the response
-          server.close();
           done();
         });
     });
