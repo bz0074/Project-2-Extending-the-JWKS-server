@@ -5,8 +5,16 @@ const fs = require('fs');
 describe('JWT Utilities Tests', () => {
   test('should serialize and deserialize a key', () => {
     // Assuming privateKey and publicKey are your key files
-    const privateKey = fs.readFileSync('path/to/private.pem', 'utf8');
-    const publicKey = fs.readFileSync('path/to/public.pem', 'utf8');
+    const privateKeyPath = 'path/to/private.pem';
+    const publicKeyPath = 'path/to/public.pem';
+
+    // Ensure the files exist before attempting to read them
+    if (!fs.existsSync(privateKeyPath) || !fs.existsSync(publicKeyPath)) {
+      throw new Error('Key files not found. Adjust the paths accordingly.');
+    }
+
+    const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+    const publicKey = fs.readFileSync(publicKeyPath, 'utf8');
 
     const originalData = { user: 'John Doe' };
 
