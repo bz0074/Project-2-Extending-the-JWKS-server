@@ -1,25 +1,22 @@
 // jwtUtils.test.js
-
-const expect = require('chai').expect;
-const jwtUtils = require('../src/jwtUtils'); // Adjust the path accordingly
-const NodeRSA = require('node-rsa');
+const { serializeKey, deserializeKey } = require('../src/jwtUtils');
+const fs = require('fs');
 
 describe('JWT Utilities Tests', () => {
-  it('should serialize and deserialize a key', () => {
-    const key = new NodeRSA({ b: 512 });
-    
-    // Ensure that the key is initialized correctly
-    expect(key).to.be.an.instanceOf(NodeRSA);
+  test('should serialize and deserialize a key', () => {
+    // Assuming privateKey and publicKey are your key files
+    const privateKey = fs.readFileSync('path/to/private.pem', 'utf8');
+    const publicKey = fs.readFileSync('path/to/public.pem', 'utf8');
 
-    // Serialize the public key using 'pkcs1-public-pem' format
-    const serializedKey = jwtUtils.serializeKey(key.exportKey('pkcs1-public-pem'));
+    const originalData = { user: 'John Doe' };
 
-    // Deserialize the key
-    const deserializedKey = jwtUtils.deserializeKey(serializedKey);
+    // Serialize key
+    const serializedKey = serializeKey(privateKey, originalData);
 
-    // Ensure that the deserialized key matches the original key
-    expect(deserializedKey.exportKey('pkcs1-public-pem')).to.equal(key.exportKey('pkcs1-public-pem'));
+    // Deserialize key
+    const deserializedData = deserializeKey(serializedKey, publicKey);
+
+    // Assertion
+    expect(deserializedData).toEqual(originalData);
   });
-
-  // Add more JWT utility tests as needed
 });
