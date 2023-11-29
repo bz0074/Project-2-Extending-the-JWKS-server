@@ -1,4 +1,4 @@
-const { yourTestFunction } = require('server');
+const { yourTestFunction } = require('./server');
 
 
 describe("Utility tests", () => {
