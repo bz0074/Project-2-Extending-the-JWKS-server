@@ -4,11 +4,6 @@
   "description": "JWT Key Set (JWKS) Server with SQLite Database",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "test": "mocha",
-    "coverage": "nyc --reporter=html mocha"
-  },
-  "scripts": {
   "test": "jest",
   "coverage": "jest --coverage"
 },
