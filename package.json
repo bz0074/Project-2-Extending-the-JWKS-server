@@ -1,4 +1,36 @@
-"scripts": {
+{
+  "name": "jwks-server",
+  "version": "1.0.0",
+  "description": "JWT Key Set (JWKS) Server with SQLite Database",
+  "main": "src/server.js",
+  "scripts": {
   "test": "jest",
   "coverage": "jest --coverage"
+},
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "mocha",
+    "coverage": "nyc --reporter=html mocha"
+  },
+  "keywords": [
+    "jwt",
+    "jwks",
+    "sqlite",
+    "authentication",
+    "security"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "sqlite3": "^5.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "body-parser": "^1.19.0"
+  },
+  "devDependencies": {
+    "mocha": "^9.1.1",
+    "chai": "^4.3.4",
+    "supertest": "^6.1.3",
+    "nyc": "^15.1.0"
+  }
 }
