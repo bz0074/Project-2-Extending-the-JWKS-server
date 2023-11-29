@@ -25,7 +25,7 @@ describe('Server Tests', () => {
   });
 });
 
-after(() => {
+afterAll(() => {
   // Close the server after all tests
   server.close();
 });
