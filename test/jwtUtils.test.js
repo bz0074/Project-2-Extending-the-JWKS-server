@@ -1,14 +1,17 @@
+// jwtUtils.test.js
 
-const jwtUtils = require('./jwtUtils');
-const db = require('./db');
+const expect = require('chai').expect;
+const jwtUtils = require('./jwtUtils'); // Adjust the path accordingly
+const NodeRSA = require('node-rsa');
 
-test('Load private keys', async () => {
-  // Mock data in the database
-  db.run('INSERT INTO keys (key, exp) VALUES (?, ?)', 'test-key', Date.now() + 3600000);
+describe('JWT Utilities Tests', () => {
+  it('should serialize and deserialize a key', () => {
+    const key = new NodeRSA({ b: 512 });
+    const serializedKey = jwtUtils.serializeKey(key.exportKey('pkcs1-pem'));
+    const deserializedKey = jwtUtils.deserializeKey(serializedKey);
 
-  const privateKeys = await jwtUtils.loadPrivateKeys();
-  expect(privateKeys).toHaveLength(1);
+    expect(deserializedKey.exportKey('pkcs1-pem')).to.equal(key.exportKey('pkcs1-pem'));
+  });
+
+  // Add more JWT utility tests as needed
 });
-
-// Add more tests as needed
-
