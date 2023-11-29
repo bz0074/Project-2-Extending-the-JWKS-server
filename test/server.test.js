@@ -4,10 +4,11 @@ const app = require('../src/server');
 let server;
 beforeAll((done) => {
     server = app.listen(4000, () => {
-        console.log('Server is running on port 3000');
+        console.log('Server is running on port 4000');
         done();
     }, 10000); // Increase the timeout to 10000ms
 });
+
 
 afterAll((done) => {
     // Close the server after all tests
