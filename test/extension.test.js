@@ -13,3 +13,11 @@ describe('Extension Tests', () => {
 
   // Add more extension tests as needed
 });
+// jest.config.js
+
+module.exports = {
+  // ... other config options
+  transformIgnorePatterns: [
+    "/node_modules/(?!twxs\\.cmake-0\\.0\\.17)"
+  ],
+};
