@@ -2,7 +2,7 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('./server'); // Adjust the path accordingly
+const app = require('../src/server'); // Adjust the path accordingly
 const expect = chai.expect;
 
 chai.use(chaiHttp);
@@ -16,6 +16,6 @@ describe('Server Tests', () => {
         done();
       });
   });
-  
+
   // Add more server tests as needed
 });
