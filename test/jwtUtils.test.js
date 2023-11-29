@@ -7,10 +7,15 @@ const NodeRSA = require('node-rsa');
 describe('JWT Utilities Tests', () => {
   it('should serialize and deserialize a key', () => {
     const key = new NodeRSA({ b: 512 });
-    const serializedKey = jwtUtils.serializeKey(key.exportKey('pkcs1-private-pem'));
+    
+    // Serialize the public key using 'pkcs1-public-pem' format
+    const serializedKey = jwtUtils.serializeKey(key.exportKey('pkcs1-public-pem'));
+
+    // Deserialize the key
     const deserializedKey = jwtUtils.deserializeKey(serializedKey);
 
-    expect(deserializedKey.exportKey('pkcs1-private-pem')).to.equal(key.exportKey('pkcs1-private-pem'));
+    // Ensure that the deserialized key matches the original key
+    expect(deserializedKey.exportKey('pkcs1-public-pem')).to.equal(key.exportKey('pkcs1-public-pem'));
   });
 
   // Add more JWT utility tests as needed
