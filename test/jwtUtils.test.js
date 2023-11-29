@@ -8,6 +8,9 @@ describe('JWT Utilities Tests', () => {
   it('should serialize and deserialize a key', () => {
     const key = new NodeRSA({ b: 512 });
     
+    // Ensure that the key is initialized correctly
+    expect(key).to.be.an.instanceOf(NodeRSA);
+
     // Serialize the public key using 'pkcs1-public-pem' format
     const serializedKey = jwtUtils.serializeKey(key.exportKey('pkcs1-public-pem'));
 
