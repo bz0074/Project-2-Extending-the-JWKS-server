@@ -1,7 +1,7 @@
 // jwtUtils.test.js
 
 const expect = require('chai').expect;
-const jwtUtils = require('./jwtUtils'); // Adjust the path accordingly
+const jwtUtils = require('../src/jwtUtils'); // Adjust the path accordingly
 const NodeRSA = require('node-rsa');
 
 describe('JWT Utilities Tests', () => {
