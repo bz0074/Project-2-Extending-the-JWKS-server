@@ -19,8 +19,10 @@ app.get('/.well-known/jwks.json', (req, res) => {
 });
 
 // Start the server
-const server = app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+
+const server = app.listen(4000, () => {
+    console.log('Server is running on port 4000');
 });
+
 
 module.exports = server;
