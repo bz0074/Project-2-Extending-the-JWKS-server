@@ -1,8 +1,8 @@
 // server.test.js
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { app, server } = require('../src/server'); // Adjust the path accordingly
+const sqlite3 = require('sqlite3');
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -14,16 +14,18 @@ before(async () => {
   });
 });
 
+describe('Server Tests', () => {
+  it('should respond with 404 on unknown routes', (done) => {
+    chai.request(app)
+      .get('/unknown-route')
+      .end((err, res) => {
+        expect(res).to.have.status(404);
+        done();
+      });
+  });
+});
+
 after(() => {
   // Close the server after all tests
   server.close();
-});
-
-describe('Server Tests', () => {
-  it('should handle a GET request', async () => {
-    const res = await chai.request(app).get('/');
-    expect(res).to.have.status(404);
-  });
-
-  // Add more server tests as needed
 });
