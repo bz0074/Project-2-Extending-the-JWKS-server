@@ -1,6 +1,13 @@
-const { yourTestFunction } = require('./yourTestFile'); // Import any necessary test functions
+// Replace this:
+suite("Utility tests", () => {
+    test("Reloads only when needed", function () {
+        // Test logic
+    });
+});
 
-// Example test without suite
-test("Utility tests: Reloads only when needed", async () => {
-  // Your test logic here
+// With this:
+describe("Utility tests", () => {
+    test("Reloads only when needed", () => {
+        // Test logic
+    });
 });
