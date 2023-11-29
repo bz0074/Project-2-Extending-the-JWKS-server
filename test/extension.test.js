@@ -1,21 +1,8 @@
 // extension.test.js
+const { yourTestFunction } = require('../src/yourTestFile'); // Adjust the path accordingly
 
-const expect = require('chai').expect;
-describe('Utility Tests', () => {
-  it('should reload only when needed', () => {
-    // Test logic goes here
+describe("Utility tests", () => {
+  test("Reloads only when needed", async () => {
+    // Your test logic
   });
-describe('Extension Tests', () => {
-  it('should run an extension test', () => {
-    expect(true).to.equal(true); // Placeholder test
-  });
-  // Add more extension tests as needed
 });
-// jest.config.js
-module.exports = {
-  // ... other config options
-  transformIgnorePatterns: [
-    "/node_modules/(?!twxs\\.cmake-0\\.0\\.17)"
-  ],
-};
-
