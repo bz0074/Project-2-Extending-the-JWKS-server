@@ -2,25 +2,26 @@
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../src/server'); // Adjust the path accordingly
+const { app, server } = require('../src/server'); // Adjust the path accordingly
 
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-describe('Server Tests', () => {
-  it('should start the server', async () => {
-    // Use an async function to handle server startup
-    await new Promise((resolve) => {
-      app.listen(3000, () => {
-        console.log('Server is running on port 3000');
-        resolve();
-      });
-    });
+before(async () => {
+  // Wait for the server to start before running tests
+  await new Promise((resolve) => {
+    server.on('listening', resolve);
+  });
+});
 
-    // Make your HTTP requests here
+after(() => {
+  // Close the server after all tests
+  server.close();
+});
+
+describe('Server Tests', () => {
+  it('should handle a GET request', async () => {
     const res = await chai.request(app).get('/');
-    
-    // Assertions go here
     expect(res).to.have.status(404);
   });
 
