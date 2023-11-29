@@ -1,54 +1,68 @@
+const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const db = require('./db');
 
-// Function to authenticate and generate JWT
-const authenticate = (req, res) => {
-  // Your authentication logic here
-
-  // Fetch key from the database based on the query parameter
-  const expired = req.query.expired === 'true';
-  const keyQuery = expired ? 'SELECT * FROM keys WHERE exp < strftime("%s", "now")' : 'SELECT * FROM keys WHERE exp >= strftime("%s", "now")';
-  
-  db.get(keyQuery, (err, row) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal Server Error' });
-    }
-
-    if (!row) {
-      return res.status(404).json({ error: 'No valid key found' });
-    }
-
-    // Your JWT signing logic here
-    const token = jwt.sign({/* Payload */}, row.key, { algorithm: 'RS256', keyid: row.kid.toString() });
-
-    res.json({ token });
+// Load private keys from the database
+const loadPrivateKeys = () => {
+  return new Promise((resolve, reject) => {
+    db.all('SELECT key, exp FROM keys WHERE exp > ?', Date.now(), (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
   });
 };
 
-// Function to get JWKS
-const getJWKS = (req, res) => {
-  // Fetch all valid keys from the database
-  const keyQuery = 'SELECT * FROM keys WHERE exp >= strftime("%s", "now")';
+// Middleware for authenticating the user and issuing a JWT
+const authenticateUser = async (req, res) => {
+  try {
+    const expired = req.query.expired === 'true';
+    const privateKeys = await loadPrivateKeys();
 
-  db.all(keyQuery, (err, rows) => {
-    if (err) {
-      return res.status(500).json({ error: 'Internal Server Error' });
+    // Filter out expired keys if 'expired' query parameter is not present
+    const validKeys = expired ? privateKeys : privateKeys.filter(key => key.exp > Date.now());
+
+    if (validKeys.length === 0) {
+      return res.status(500).json({ error: 'No valid private keys available' });
     }
 
-    if (!rows || rows.length === 0) {
-      return res.status(404).json({ error: 'No valid keys found' });
-    }
+    // Select a random key from the valid keys
+    const selectedKey = validKeys[Math.floor(Math.random() * validKeys.length)];
 
-    // Convert keys to JWKS format
-    const jwks = rows.map(row => ({
-      kid: row.kid.toString(),
+    // Sign a JWT using the selected private key
+    const token = jwt.sign({ username: 'userABC' }, selectedKey.key, { algorithm: 'RS256', keyid: selectedKey.kid });
+    res.json({ token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+// Endpoint for retrieving JWKS (JSON Web Key Set)
+const getJWKS = async (req, res) => {
+  try {
+    const privateKeys = await loadPrivateKeys();
+
+    // JWKS format
+    const jwks = privateKeys.map(key => ({
+      kid: key.kid.toString(),
       kty: 'RSA',
-      n: 'base64url-encoded-modulus',
-      e: 'base64url-encoded-exponent',
+      use: 'sig',
+      nbf: key.exp,
+      e: 'AQAB',
+      n: key.key.toString('base64'),
     }));
 
     res.json({ keys: jwks });
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 };
 
-module.exports = { authenticate, getJWKS };
+module.exports = {
+  authenticateUser,
+  getJWKS,
+};
