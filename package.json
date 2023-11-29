@@ -27,3 +27,8 @@
     "supertest": "^6.1.3"
   }
 }
+"scripts": {
+  "test": "mocha",
+  "coverage": "nyc --reporter=html mocha"
+}
+
