@@ -1,40 +1,76 @@
-const request = require('supertest');
-const app = require('../src/server'); // Assuming you have an Express app in this file
+// test.js
 
-describe('Authentication Tests', () => {
-  // Test case for POST /auth
-  it('should return a valid JWT on successful authentication', async () => {
-    const response = await request(app)
-      .post('/auth')
-      .send({ /* your authentication payload */ });
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const app = require('./server'); // Adjust the path accordingly
+const db = require('./db'); // Adjust the path accordingly
+const jwtUtils = require('./jwtUtils'); // Adjust the path accordingly
 
-    // Your assertions here
-    expect(response.status).toBe(200);
-    expect(response.body.token).toBeDefined();
+chai.use(chaiHttp);
+const expect = chai.expect;
+
+describe('JWT Server Tests', () => {
+  before((done) => {
+    // Add setup code here (e.g., insert test data into the database)
+    const key1 = jwtUtils.serializeKey(new NodeRSA({ b: 512 }).exportKey('pkcs1-pem'));
+    const key2 = jwtUtils.serializeKey(new NodeRSA({ b: 512 }).exportKey('pkcs1-pem'));
+    
+    db.run('INSERT INTO keys (key, exp) VALUES (?, ?)', [key1, Date.now() + 1000]); // Expire in 1 second
+    db.run('INSERT INTO keys (key, exp) VALUES (?, ?)', [key2, Date.now() + 3600000]); // Expire in 1 hour
+    
+    done();
   });
 
-  // Add more test cases as needed for different scenarios
-
-  // Remember to close the server after the test suite
-  afterAll(() => {
-    app.close();
-  });
-});
-
-describe('JWKS Tests', () => {
-  // Test case for GET /.well-known/jwks.json
-  it('should return a valid JWKS', async () => {
-    const response = await request(app).get('/.well-known/jwks.json');
-
-    // Your assertions here
-    expect(response.status).toBe(200);
-    expect(response.body.keys).toBeDefined();
+  after((done) => {
+    // Add cleanup code here (e.g., delete test data from the database)
+    db.run('DELETE FROM keys');
+    done();
   });
 
-  // Add more test cases as needed for different scenarios
+  describe('POST:/auth', () => {
+    it('should return a JWT for unexpired key', (done) => {
+      chai.request(app)
+        .post('/auth')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('token');
+          done();
+        });
+    });
 
-  // Remember to close the server after the test suite
-  afterAll(() => {
-    app.close();
+    it('should return a JWT for expired key', (done) => {
+      chai.request(app)
+        .post('/auth?expired=true')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('token');
+          done();
+        });
+    });
+
+    it('should return 404 for key not found', (done) => {
+      chai.request(app)
+        .post('/auth?expired=nonexistent')
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body).to.have.property('error', 'Private key not found');
+          done();
+        });
+    });
+  });
+
+  describe('GET:/.well-known/jwks.json', () => {
+    it('should return a JWKS response', (done) => {
+      chai.request(app)
+        .get('/.well-known/jwks.json')
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('keys');
+          expect(res.body.keys).to.be.an('array');
+          expect(res.body.keys[0]).to.have.property('kid');
+          expect(res.body.keys[0]).to.have.property('kty', 'RSA');
+          done();
+        });
+    });
   });
 });
