@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest --coverage"
+    "test": "mocha",
+    "coverage": "nyc --reporter=html mocha"
   },
   "keywords": [
     "jwt",
@@ -23,12 +24,9 @@
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
-    "jest": "^27.0.6",
-    "supertest": "^6.1.3"
+    "mocha": "^9.1.1", // Added missing dependency
+    "chai": "^4.3.4", // Added missing dependency
+    "supertest": "^6.1.3",
+    "nyc": "^15.1.0" // Added missing dependency
   }
 }
-"scripts": {
-  "test": "mocha",
-  "coverage": "nyc --reporter=html mocha"
-}
-
