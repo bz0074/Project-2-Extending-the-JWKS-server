@@ -4,9 +4,9 @@
   "description": "JWT Key Set (JWKS) Server with SQLite Database",
   "main": "src/server.js",
   "scripts": {
-    "test": "jest",
-    "coverage": "nyc jest --coverage"
-  },
+  "test": "jest",
+  "coverage": "jest --coverage"
+},
   "keywords": [
     "jwt",
     "jwks",
