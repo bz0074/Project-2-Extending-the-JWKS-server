@@ -8,6 +8,10 @@
     "test": "mocha",
     "coverage": "nyc --reporter=html mocha"
   },
+  "scripts": {
+  "test": "jest",
+  "coverage": "jest --coverage"
+},
   "keywords": [
     "jwt",
     "jwks",
