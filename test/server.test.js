@@ -7,7 +7,7 @@ const sqlite3 = require('sqlite3');
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-before(async () => {
+beforeAll(async () => {
   // Wait for the server to start before running tests
   await new Promise((resolve) => {
     server.on('listening', resolve);
