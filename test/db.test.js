@@ -1,7 +1,7 @@
 // db.test.js
 
 const expect = require('chai').expect;
-const db = require('./db'); // Adjust the path accordingly
+const db = require('../src/db'); // Adjust the path accordingly
 
 describe('Database Tests', () => {
   it('should connect to the database', (done) => {
