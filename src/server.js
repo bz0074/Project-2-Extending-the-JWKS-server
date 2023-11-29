@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-// Configure your routes and middleware
+// Add your routes and middleware here
 
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
