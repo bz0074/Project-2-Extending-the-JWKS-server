@@ -24,9 +24,9 @@
     "body-parser": "^1.19.0"
   },
   "devDependencies": {
-    "mocha": "^9.1.1", // Added missing dependency
-    "chai": "^4.3.4", // Added missing dependency
+    "mocha": "^9.1.1",
+    "chai": "^4.3.4",
     "supertest": "^6.1.3",
-    "nyc": "^15.1.0" // Added missing dependency
+    "nyc": "^15.1.0"
   }
 }
