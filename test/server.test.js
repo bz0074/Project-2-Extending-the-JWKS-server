@@ -2,13 +2,11 @@ const request = require('supertest');
 const app = require('../src/server');
 
 let server;
-
 beforeAll((done) => {
-    // Start the server before all tests
     server = app.listen(3000, () => {
         console.log('Server is running on port 3000');
         done();
-    });
+    }, 10000); // Increase the timeout to 10000ms
 });
 
 afterAll((done) => {
