@@ -7,6 +7,19 @@ const jwtUtils = require('./jwtUtils'); // Adjust the path accordingly
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+// server.js
+
+const express = require('express');
+const PORT = 3000;
+
+// Set up your routes and middleware here
+
+const server = app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+module.exports = { app, server };
+
 
 app.use(bodyParser.json());
 
