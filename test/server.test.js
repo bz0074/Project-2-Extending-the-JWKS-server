@@ -4,16 +4,16 @@ const app = require('../src/server');
 let server;
 
 beforeAll((done) => {
-  // Start the server before all tests
-  server = app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-    done();
-  });
+    // Start the server before all tests
+    server = app.listen(3000, () => {
+        console.log('Server is running on port 3000');
+        done();
+    });
 });
 
 afterAll((done) => {
-  // Close the server after all tests are done
-  server.close(done);
+    // Close the server after all tests
+    server.close(done);
 });
 
 describe('jwtUtils Tests', () => {
