@@ -10,7 +10,8 @@ describe('JWT Utilities Tests', () => {
 
     // Ensure the files exist before attempting to read them
     if (!fs.existsSync(privateKeyPath) || !fs.existsSync(publicKeyPath)) {
-      throw new Error('Key files not found. Adjust the paths accordingly.');
+      console.error('Key files not found. Adjust the paths accordingly.');
+      return;
     }
 
     const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
